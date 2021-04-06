@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  app:
+    image: "platoniq/decidim-hacks:latest"
+    volumes:
+      - .:/code
+    environment:
+      - PORT=3000
+      - DATABASE_HOST=pg
+      - DATABASE_USERNAME=postgres
+      - RAILS_ENV=development
+      - RAILS_LOG_TO_STDOUT=1
+    ports:
+      - 3000:3000
+    links:
+      - pg
+    command: /code/docker/init.sh
+  pg:
+    image: postgres
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+volumes:
+  pg-data: {}
